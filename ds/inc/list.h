@@ -149,6 +149,81 @@ int list_count (struct node * head)
   return 1 + list_count(head->next);
 }
 
+
+void list_swap (struct node ** head_ref, int datax, int datay)
+{
+  if (datax == datay) return;
+
+  struct node * prevx = NULL;
+  struct node * currx = * head_ref;
+  while (currx && currx->data != datax)
+  {
+    prevx = currx;
+    currx = currx->next;
+  }
+
+  struct node * prevy = NULL;
+  struct node * curry = * head_ref;
+  while (curry && curry->data != datay)
+  {
+    prevy = curry;
+    curry = curry->next;
+  }
+
+  if (currx == NULL || curry == NULL)  return;
+
+  if (prevx != NULL)  prevx->next = curry;
+  else * head_ref = curry;
+
+  if (prevy != NULL) prevy->next = currx;
+  else * head_ref = currx;
+
+  struct node * tmp = curry->next;
+  curry->next = currx->next;
+  currx->next = tmp;  
+}
+
+
+void list_reverse (struct node ** head_ref)
+{
+  struct node * prev = NULL;
+  struct node * current = * head_ref;
+  struct node * next;
+  while (current != NULL)
+  {
+    next = current->next;
+    current->next = prev;
+    prev = current;
+    current = next;
+  }
+  * head_ref = prev;
+}
+
+
+struct node * list_reverse_by_group (struct node * head, int group_size)
+{
+  struct node * current = head;
+  struct node * next = NULL;
+  struct node * prev = NULL;
+  int counter = 0;
+
+  while (current != NULL && counter < group_size)
+  {
+    next = current->next;
+    current->next = prev;
+    prev = current;
+    current = next;
+    counter++;
+  }
+
+  if (next != NULL)
+  {
+    head->next = list_reverse_by_group(next, group_size);
+  }
+
+  return prev;
+}
+
 /* --------------------------------------------------------------------------- */
 
 void list_print (struct node * n)

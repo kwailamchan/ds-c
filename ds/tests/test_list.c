@@ -10,40 +10,53 @@ void test_list (void)
   struct node * head = NULL;
   struct node * second = NULL;
   struct node * third = NULL;
+  struct node * fourth = NULL;
 
   // allocate 3 nodes in the heap
   head = (struct node *)malloc(sizeof(struct node));
   second = (struct node *)malloc(sizeof(struct node));
   third = (struct node *)malloc(sizeof(struct node));
+  fourth = (struct node *)malloc(sizeof(struct node));
 
   head->data = 1;
   head->next = second;
   second->data = 2;
   second->next = third;
   third->data = 3;
-  third->next = NULL;
+  third->next = fourth;
+  fourth->data = 4;
+  fourth->next = NULL;
 
-  list_print (head); printf("\n");
+  printf("list: "); list_print (head); printf("\n");
   // create
   list_push (&head, 7);
-  list_print (head); printf("\n");
+  printf("push: "); list_print (head); printf("\n");
   list_insert (head->next, 8);
-  list_print (head); printf("\n");
+  printf("insert: "); list_print (head); printf("\n");
   list_append (&head, 6);
-  list_print (head); printf("\n");
+  printf("append: "); list_print (head); printf("\n");
   // delete
   list_delete (&head, 1);
-  list_print (head); printf("\n");
+  printf("delete: "); list_print (head); printf("\n");
   list_delete_by_position (&head, 4);
-  list_print (head); printf("\n");
+  printf("delete by position: "); list_print (head); printf("\n");
 
   // count
   int len = list_count (head);
   printf("list length: %d\n", len);
+  // swap
+  list_swap (&head, 8, 2);
+  printf("swap: "); list_print (head); printf("\n");
+  // reverse
+  list_reverse (&head);
+  printf("reverse: "); list_print (head); printf("\n");
+  head = list_reverse_by_group (head, 2);
+  printf("reverse by group: "); list_print (head); printf("\n");
 
   free (head);
   free (second);
   free (third);
+  free (fourth);
 }
 
 
