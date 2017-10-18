@@ -24,12 +24,22 @@ void test_list (void)
   third->next = NULL;
 
   list_print (head); printf("\n");
+  // create
   list_push (&head, 7);
   list_print (head); printf("\n");
   list_insert (head->next, 8);
   list_print (head); printf("\n");
   list_append (&head, 6);
   list_print (head); printf("\n");
+  // delete
+  list_delete (&head, 1);
+  list_print (head); printf("\n");
+  list_delete_by_position (&head, 4);
+  list_print (head); printf("\n");
+
+  // count
+  int len = list_count (head);
+  printf("list length: %d\n", len);
 
   free (head);
   free (second);

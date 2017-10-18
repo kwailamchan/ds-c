@@ -9,6 +9,13 @@ struct node
   struct node * next;
 };
 
+/* --------------------------------------------------------------------------- */
+/*
+ * create:
+ * - push
+ * - insert
+ * - append
+ */
 
 void list_push (struct node ** head_ref, int data)
 {
@@ -56,6 +63,93 @@ void list_append (struct node ** head_ref, int data)
   return;
 }
 
+
+/* --------------------------------------------------------------------------- */
+/*
+ * delete:
+ * - head
+ * - node
+ * - tail
+ */
+
+
+void list_delete (struct node ** head_ref, int data)
+{
+  struct node * tmp = * head_ref;
+  struct node * prev;
+
+  if (tmp != NULL && tmp->data == data)
+  {
+    * head_ref = tmp->next;  // change head
+    free (tmp);              // free old head
+    return;
+  }
+
+  while (tmp != NULL && tmp->data != data)
+  {
+    prev = tmp;
+    tmp = tmp->next;
+  }
+
+  if (tmp == NULL) return;
+  prev->next = tmp->next;
+
+  free(tmp);
+}
+
+
+void list_delete_by_position (struct node ** head_ref, int position)
+{
+  if (*head_ref == NULL)
+  {
+    return;
+  }
+
+  struct node * tmp = * head_ref;
+  if (position == 0)
+  {
+    * head_ref = tmp->next;
+    free (tmp);
+    return;
+  }
+
+  int i;
+  for (i = 0; tmp != NULL && i < position-1; ++i)
+  {
+    tmp = tmp->next;
+  }
+
+  if (tmp == NULL || tmp->next == NULL)
+  {
+    return;
+  }
+
+  struct node * next = tmp->next->next;
+  free (tmp->next);
+  tmp->next = next;
+}
+
+/* --------------------------------------------------------------------------- */
+
+int list_count (struct node * head)
+{
+/*
+  int counter = 0;
+  struct node * current = head;
+  while (current != NULL)
+  {
+    counter++;
+    current = current->next;
+  }
+  return counter;
+*/
+
+  if (head == NULL)
+    return 0;
+  return 1 + list_count(head->next);
+}
+
+/* --------------------------------------------------------------------------- */
 
 void list_print (struct node * n)
 {
