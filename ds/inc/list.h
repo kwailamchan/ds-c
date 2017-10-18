@@ -226,7 +226,7 @@ struct node * list_reverse_by_group (struct node * head, int group_size)
 
 /* --------------------------------------------------------------------------- */
 
-void list_print (struct node * n)
+void list_traverse (struct node * n)
 {
   while (n != NULL)
   {

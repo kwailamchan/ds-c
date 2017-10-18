@@ -27,31 +27,31 @@ void test_list (void)
   fourth->data = 4;
   fourth->next = NULL;
 
-  printf("list: "); list_print (head); printf("\n");
+  printf("list: "); list_traverse (head); printf("\n");
   // create
   list_push (&head, 7);
-  printf("push: "); list_print (head); printf("\n");
+  printf("push: "); list_traverse (head); printf("\n");
   list_insert (head->next, 8);
-  printf("insert: "); list_print (head); printf("\n");
+  printf("insert: "); list_traverse (head); printf("\n");
   list_append (&head, 6);
-  printf("append: "); list_print (head); printf("\n");
+  printf("append: "); list_traverse (head); printf("\n");
   // delete
   list_delete (&head, 1);
-  printf("delete: "); list_print (head); printf("\n");
+  printf("delete: "); list_traverse (head); printf("\n");
   list_delete_by_position (&head, 4);
-  printf("delete by position: "); list_print (head); printf("\n");
+  printf("delete by position: "); list_traverse (head); printf("\n");
 
   // count
   int len = list_count (head);
   printf("list length: %d\n", len);
   // swap
   list_swap (&head, 8, 2);
-  printf("swap: "); list_print (head); printf("\n");
+  printf("swap: "); list_traverse (head); printf("\n");
   // reverse
   list_reverse (&head);
-  printf("reverse: "); list_print (head); printf("\n");
+  printf("reverse: "); list_traverse (head); printf("\n");
   head = list_reverse_by_group (head, 2);
-  printf("reverse by group: "); list_print (head); printf("\n");
+  printf("reverse by group: "); list_traverse (head); printf("\n");
 
   free (head);
   free (second);
