@@ -23,7 +23,13 @@ void test_list (void)
   third->data = 3;
   third->next = NULL;
 
-  list_print (head);
+  list_print (head); printf("\n");
+  list_push (&head, 7);
+  list_print (head); printf("\n");
+  list_insert (head->next, 8);
+  list_print (head); printf("\n");
+  list_append (&head, 6);
+  list_print (head); printf("\n");
 
   free (head);
   free (second);
