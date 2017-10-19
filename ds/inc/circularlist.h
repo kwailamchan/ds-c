@@ -75,6 +75,27 @@ struct clnode * circularlist_insertafter (struct clnode * last, int data, int it
 }
 
 
+void circularlist_split (struct clnode * head, struct clnode ** split1, struct clnode ** split2)
+{
+  struct clnode * slow_ptr = head;
+  struct clnode * fast_ptr = head;
+
+  if (head == NULL) return;
+  while (fast_ptr->next != head && fast_ptr->next->next != head)
+  {
+    fast_ptr = fast_ptr->next->next;
+    slow_ptr = slow_ptr->next;
+  }
+
+  if (fast_ptr->next->next == head) fast_ptr = fast_ptr->next;
+
+  * split1 = head;
+  if (head->next != head) * split2 = slow_ptr->next;
+  fast_ptr->next = slow_ptr->next;
+  slow_ptr->next = head;
+}
+
+
 void circularlist_traverse (struct clnode * last)
 {
   struct clnode * p;
