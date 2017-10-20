@@ -53,6 +53,10 @@ void test_list (void)
   head = list_reverse_by_group (head, 2);
   printf("reverse by group: "); list_traverse (head); printf("\n");
 
+  list_mergesort (&head);
+  printf("mergesort: "); list_traverse (head); printf("\n");
+  
+
   free (head);
   free (second);
   free (third);

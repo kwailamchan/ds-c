@@ -24,6 +24,9 @@ void test_doublylist (void)
 
   doublylist_quicksort_start (head);
   doublylist_traverse (head);
+
+  doublylist_mergesort (head);
+  doublylist_traverse (head);
 }
 
 

@@ -225,6 +225,128 @@ struct node * list_reverse_by_group (struct node * head, int group_size)
 }
 
 /* --------------------------------------------------------------------------- */
+// mergesort
+
+
+struct node * list_merge (struct node * a, struct node * b)
+{
+  struct node * result = NULL;
+
+  if (a == NULL) return (b);
+  else if (b == NULL) return (a);
+
+  if (a->data <= b->data)
+  {
+    result = a;
+    result->next = list_merge (a->next, b);
+  }
+  else
+  {
+    result = b;
+    result->next = list_merge (a, b->next);
+  }
+
+  return result;
+}
+
+
+void list_frontbacksplit (struct node * source, struct node ** front, struct node ** back)
+{
+  struct node * fast;
+  struct node * slow;
+  if ((source == NULL) || (source->next == NULL))
+  {
+    * front = source;
+    * back = NULL;
+  }
+  else
+  {
+    slow = source;
+    fast = source->next;
+
+    while (fast != NULL)
+    {
+      fast = fast->next;
+      if (fast != NULL)
+      {
+        slow = slow->next;
+        fast = fast->next;
+      }
+    }
+
+    * front = source;
+    * back = slow->next;
+    slow->next = NULL;
+  }
+}
+
+
+void list_mergesort (struct node ** head)
+{
+  struct node * head_ref = * head;
+  struct node * a;
+  struct node * b;
+
+  if ((head_ref == NULL) || (head_ref->next == NULL))
+  {
+    return;
+  }
+
+  list_frontbacksplit (head_ref, &a, &b);
+  list_mergesort (&a);
+  list_mergesort (&b);
+  head_ref = list_merge (a, b);
+}
+
+/* --------------------------------------------------------------------------- */
+// detect loop and remove loop
+
+int list_detectremoveloop (struct node * head)
+{
+  struct node * slow_ptr = head;
+  struct node * fast_ptr = head;
+
+  while (slow_ptr && fast_ptr && fast_ptr->next)
+  {
+    slow_ptr = slow_ptr->next;
+    fast_ptr = fast_ptr->next->next;
+
+    if (slow_ptr == fast_ptr)
+    {
+      list_removeloop (slow_ptr, head);
+      return 1;
+    }
+  }
+  return 0;
+}
+
+
+void list_removeloop (struct node * loopnode, struct node * head)
+{
+  struct node * ptr1;
+  struct node * ptr2;
+
+  ptr1 = head;
+  while (1)
+  {
+    ptr2 = loopnode;
+    while (ptr2->next != loopnode && ptr2->next != ptr1)
+    {
+      ptr2 = ptr2->next;
+    }
+
+    if (ptr2->next == ptr1)
+    {
+      break;
+    }
+
+    ptr1 = ptr1->next;
+  }
+
+  ptr2->next = NULL;
+}
+
+/* --------------------------------------------------------------------------- */
 
 void list_traverse (struct node * n)
 {

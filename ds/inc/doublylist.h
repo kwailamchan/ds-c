@@ -115,6 +115,7 @@ void doublylist_delete (struct dlnode ** head, struct dlnode * del)
 
 
 /* --------------------------------------------------------------------------------- */
+// quicksort
 
 struct dlnode * doublylist_partition (struct dlnode * startnode, struct dlnode * endnode)
 {
@@ -152,6 +153,69 @@ void doublylist_quicksort_start (struct dlnode * head)
 {
   struct dlnode * h = doublylist_lastnode (head);
   doublylist_quicksort (head, h); 
+}
+
+/* --------------------------------------------------------------------------------- */
+// mergesort
+
+struct dlnode * doublylist_merge (struct dlnode * first, struct dlnode * second)
+{
+  if (!first)
+  {
+    return second;
+  }
+
+  if (!second)
+  {
+    return first;
+  }
+
+  if (first->data < second->data)
+  {
+    first->next = doublylist_merge (first->next, second);
+    first->next->prev = first;
+    first->prev = NULL;
+    return first;
+  }
+  else
+  {
+    second->next = doublylist_merge (first, second->next);
+    second->next->prev = second;
+    second->prev = NULL;
+    return second;
+  }
+}
+
+
+struct dlnode * doublylist_split (struct dlnode * head)
+{
+  struct dlnode * fast = head;
+  struct dlnode * slow = head;
+  while (fast->next && fast->next->next)
+  {
+    fast = fast->next->next;
+    slow = slow->next;
+  }
+
+  struct dlnode * temp = slow->next;
+  slow->next = NULL;
+
+  return temp;
+}
+
+
+struct dlnode * doublylist_mergesort (struct dlnode * head)
+{
+  if (!head || !head->next)
+  {
+    return head;
+  }
+
+  struct dlnode * second = doublylist_split (head);
+  head = doublylist_mergesort (head);
+  second = doublylist_mergesort (second);
+
+  return doublylist_merge (head, second);
 }
 
 /* --------------------------------------------------------------------------------- */
